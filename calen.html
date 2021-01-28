@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tentando fezer um calendário</title>
+</head>
+<script>
+    function relogio(){
+        var novaHora = new Date();
+        var horas = novaHora.getHours();
+        var minutos = novaHora.getMinutes();
+        var segundos = novaHora.getSeconds();
+        hora_atual = horas+':'+minutos+":"+segundos;
+        document.form_calendario.relogio.value = hora_atual;
+        setTimeout("relogio()", 1000);
+    }
+
+    function calendario(){
+        var data = new Date();
+        var ano = data.getFullYear();
+        var mes = data.getMonth();
+        var dia = data.getDate();
+        var dia_semana = data.getDay();
+        var A_mes = new Array("Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro");
+        var A_diaSem = new Array("Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb");
+        data.setDate(1);
+        calendario = "<center><table border='2'><tr><th colspan='7'>"+A_mes[mes]+" de "+ano+"</th></tr>";
+        calendario += "<tr>"; 
+            for(var i=0; i<7; i++){
+                if(dia_semana==i)
+                    calendario+="<td><b>"+A_diaSem[i]+"</b></td>";
+                else
+                    calendario+="<td>"+A_diaSem[i]+"</td>";
+            }
+        calendario+="</tr>";
+
+        for(i=0; i<data.getDay(); i++)
+            calendario+="<td></td>";
+
+        for(i=0; i<31; i++){
+            if(data.getDate()>=1){
+                dia_semana = data.getDay();
+                if(dia_semana==0)
+                    calendario+="<tr>";
+
+                if(dia_semana!=7){
+                    if(dia==data.getDate())
+                        calendario+="<td><b>"+(i+1)+"</b></td>";
+                    else
+                        calendario+="<td>"+(i+1)+"</td>";
+                }      
+                if(dia_semana==7)
+                    calendario+="</tr>";
+            }
+            data.setDate(data.getDate()+1);
+        }
+        calendario+="<tr><td colspan='7'><center><form name='form_calendario'><input type='text' name='relogio' size='4' class='relogio'/></center> </form></td></tr></table></center>";
+        document.write(calendario); 
+    }
+       
+</script>
+<body onload="relogio()">
+    <script>
+        calendario();
+    </script>
+    
+</body>
+</html>
